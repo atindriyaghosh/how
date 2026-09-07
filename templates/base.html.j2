@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}how{% endblock %} — how</title>
+<link rel="stylesheet" href="{{ root }}style.css">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="site-title" href="{{ root }}index.html">how</a>
+  <p class="site-tagline">principles and patterns</p>
+</header>
+<main>
+{% block content %}{% endblock %}
+</main>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'neutral' });</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends "base.html.j2" %}
+{% block title %}home{% endblock %}
+{% block content %}
+<section class="principles">
+  <h2>Principles</h2>
+  {% for principle in principles %}
+  <article class="principle">
+    <h3>{{ principle.title }}</h3>
+    {{ principle.content_html | safe }}
+  </article>
+  {% endfor %}
+</section>
+
+<section class="patterns">
+  <h2>Patterns</h2>
+  <ul class="pattern-list">
+    {% for pattern in patterns %}
+    <li>
+      <a href="{{ root }}patterns/{{ pattern.slug }}.html">{{ pattern.title }}</a>
+      <p>{{ pattern.summary }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

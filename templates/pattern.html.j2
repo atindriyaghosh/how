@@ -1,0 +1,20 @@
+{% extends "base.html.j2" %}
+{% block title %}{{ pattern.title }}{% endblock %}
+{% block content %}
+<p><a href="{{ root }}index.html" class="back-link">&larr; Back to index</a></p>
+<article class="pattern-page">
+  <h1>{{ pattern.title }}</h1>
+  <p class="pattern-summary">{{ pattern.summary }}</p>
+  {% if pattern.stack %}
+  <ul class="pattern-stack">
+    {% for item in pattern.stack %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% if pattern.app_url %}
+  <p><a href="{{ pattern.app_url }}" class="app-link">Live app &rarr;</a></p>
+  {% endif %}
+  {{ pattern.content_html | safe }}
+</article>
+{% endblock %}
