@@ -38,4 +38,6 @@ in, `dist/` out, no network call anywhere in its own logic. A build that
 reaches out to an API at build time is a build that can start failing, or
 silently start producing different output, the day that API changes —
 dependency resolution (`uv` syncing `pyproject.toml`) is a separate,
-already-pinned step, not something the build script itself does.
+already-pinned step, not something the build script itself does. This is
+the build the [Knowledge base pattern](../patterns/knowledge-base.html)
+describes.

@@ -17,7 +17,10 @@ Grant the workflow's token only the scopes its steps actually use —
 `contents: read`, `pages: write`, `id-token: write` here, not the broader
 default a workflow gets when it doesn't ask. A workflow holding more
 permission than it uses is a bigger blast radius if any one action in it is
-ever compromised, regardless of whether that action is pinned by SHA.
+ever compromised, regardless of whether that action is pinned by SHA. This
+is the exact scoping the
+[Knowledge base pattern](../patterns/knowledge-base.html)'s deploy workflow
+uses.
 
 #### Containers
 
