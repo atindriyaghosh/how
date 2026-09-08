@@ -50,6 +50,13 @@ asserting today's pick:
   no third party anywhere in the path.
   - **Against:** I'm now the one running and patching VPN infrastructure,
     and every device needs its own manual configuration.
+- **An edge tunnel (Cloudflare Tunnel):** also no inbound ports, outbound-only
+  connector to Cloudflare's edge, and the same system can front a public
+  app later via the same product.
+  - **Against:** private access means configuring Cloudflare Access
+    policies per app rather than just being on a network; the traffic
+    itself terminates at Cloudflare's edge, not end-to-end between my
+    devices.
 - **A managed mesh VPN (Tailscale):** near-zero setup, works across NAT and
   firewalls automatically, real per-device identity, and `serve`/`funnel`
   give a simple private/public toggle without extra infrastructure.
@@ -88,9 +95,12 @@ way.
 
 ## Current recommendation
 
-Tailscale, specifically Serve rather than Funnel: reachable by tailnet
-hostname from any of my own devices, invisible to anything not on the
-tailnet. Deliberately not Funnel — nothing here is meant to be public.
+Tailscale, chosen over the alternatives above mainly because it's the
+easiest to get up and running — not a deeper claim that it beats Cloudflare
+Tunnel or a self-hosted WireGuard on their merits, just the one that took
+the least setup. Specifically Serve rather than Funnel: reachable by
+tailnet hostname from any of my own devices, invisible to anything not on
+the tailnet. Deliberately not Funnel — nothing here is meant to be public.
 
 Whichever shape an app needs, it ends up as a systemd unit: a plain
 `.service` for a bare-metal app, or a quadlet (a `.container` file) for a
