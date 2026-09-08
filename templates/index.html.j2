@@ -3,21 +3,25 @@
 {% block content %}
 <section>
   <h2>Principles</h2>
-  {% for principle in principles %}
-  <article>
-    <a href="{{ root }}principles/{{ principle.slug }}.html"><h3>{{ principle.title }}</h3></a>
-    <p>{{ principle.summary }}</p>
-  </article>
-  {% endfor %}
+  <div class="card-grid">
+    {% for principle in principles %}
+    <a class="card" href="{{ root }}principles/{{ principle.slug }}.html">
+      <h3>{{ principle.title }}</h3>
+      <p>{{ principle.summary }}</p>
+    </a>
+    {% endfor %}
+  </div>
 </section>
 
 <section>
   <h2>Patterns</h2>
-  {% for pattern in patterns %}
-  <article>
-    <a href="{{ root }}patterns/{{ pattern.slug }}.html"><h3>{{ pattern.title }}</h3></a>
-    <p>{{ pattern.summary }}</p>
-  </article>
-  {% endfor %}
+  <div class="card-grid">
+    {% for pattern in patterns %}
+    <a class="card" href="{{ root }}patterns/{{ pattern.slug }}.html">
+      <h3>{{ pattern.title }}</h3>
+      <p>{{ pattern.summary }}</p>
+    </a>
+    {% endfor %}
+  </div>
 </section>
 {% endblock %}

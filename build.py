@@ -101,7 +101,7 @@ def check_links(docs: list[Doc]) -> None:
         for target in LINK_RE.findall(doc.body):
             if target.startswith(("http://", "https://", "#", "mailto:")):
                 continue
-            match = re.match(r"^(?:\.\./)?(patterns|principles)/([^./]+)(?:\.md)?$", target)
+            match = re.match(r"^(?:\.\./)?(patterns|principles)/([^./]+)(?:\.(?:md|html))?$", target)
             if not match:
                 continue
             dir_name, slug = match.groups()
