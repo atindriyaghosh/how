@@ -10,7 +10,10 @@ app_url: https://atindriyaghosh.com
 
 Utilities like a PDF merger, a timezone converter, or a hash generator don't
 need a framework, a build pipeline, or a server. Each one is a single HTML
-file that does one job in the browser and nothing else.
+file that does one job in the browser and nothing else — no settings panel
+that turns a date calculator into a timezone converter into a calendar app.
+When a second, related need shows up, that's a new tool, not a feature flag
+on the first one.
 
 ## Use case
 
