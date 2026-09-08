@@ -63,6 +63,14 @@ look and feel comes from one common stylesheet, not a component framework.
 Revisit only if a tool's interactivity genuinely outgrows what vanilla JS
 in one file can hold.
 
+Third-party libraries are vendored into the repo (`vendor/<package>@<version>/`),
+never loaded from a CDN at runtime. Every tool ships a strict
+Content-Security-Policy — `default-src 'none'`, `connect-src 'none'` by
+default — so the browser itself refuses any network call a tool doesn't
+explicitly declare a need for. A tool that genuinely needs one (an AI
+feature calling an LLM API) states it as a scoped, named exception in that
+tool's own CSP, not a site-wide loosening.
+
 ## Architecture
 
 ```mermaid
