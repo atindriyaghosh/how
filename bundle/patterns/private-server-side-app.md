@@ -115,6 +115,14 @@ VM. Only the box underneath, whether that particular app is containerized,
 and — if it ever stops being Tailscale — how privacy is enforced, can
 change without this pattern's name or intent changing with it.
 
+## Related principles
+
+This pattern's recommendation follows from two of the bundle's
+principles: [Privacy-first, local-first](../principles/privacy-first.html)
+— a backend I host myself, never a third party's; and [Least
+privilege](../principles/least-privilege.html) — rootless Podman over a
+root-owned Docker daemon, whenever an app is containerized at all.
+
 ## Architecture
 
 ```mermaid

@@ -70,6 +70,16 @@ explicitly declare a need for. A tool that genuinely needs one (an AI
 feature calling an LLM API) states it as a scoped, named exception in that
 tool's own CSP, not a site-wide loosening.
 
+## Related principles
+
+This pattern's recommendation follows from three of the bundle's
+principles: [Privacy-first, local-first](../principles/privacy-first.html)
+— nothing leaves the browser at all; [Minimal
+dependencies](../principles/minimal-dependencies.html) — vendored, never
+CDN-loaded; and [No egress by
+default](../principles/no-egress-by-default.html) — the CSP that ships on
+every page.
+
 ## Architecture
 
 ```mermaid
