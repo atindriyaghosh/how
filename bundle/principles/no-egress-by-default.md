@@ -35,11 +35,3 @@ reaches out to an API at build time is a build that can start failing, or
 silently start producing different output, the day that API changes —
 dependency resolution (`uv` syncing `pyproject.toml`) is a separate,
 already-pinned step, not something the build script itself does.
-
-#### GitHub Actions
-
-Grant the workflow's token only the scopes its steps actually use —
-`contents: read`, `pages: write`, `id-token: write` here, not the broader
-default a workflow gets when it doesn't ask. A workflow holding more
-permission than it uses is a bigger blast radius if any one action in it is
-ever compromised, regardless of whether that action is pinned by SHA.
