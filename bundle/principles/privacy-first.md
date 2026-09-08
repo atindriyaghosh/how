@@ -1,13 +1,15 @@
 ---
 type: principle
 title: Privacy-first, local-first
-summary: A user's data stays inside infrastructure I control — the browser, or a backend I host myself — never a third party's.
+summary: A user's data never reaches a third party — either it never leaves their device, or it goes only to a backend I run myself.
 ---
 
-Whatever a tool or app does with a user's data, that data stays inside
-infrastructure under my control — the browser, or a backend I host myself
-— and never a third party's. No upload to someone else's service, no
-analytics beacon carrying content, no server in the path that isn't mine.
+Whatever a tool or app does with a user's data, it never reaches a third
+party. Either it never leaves the user's own device at all — nothing of
+theirs for me to even hold — or, when a backend is genuinely needed, it
+goes only to a service I run myself, never someone else's. No upload to
+someone else's service, no analytics beacon carrying content, no server in
+the path that isn't mine.
 
 This isn't a compliance stance, it's an architecture default. When nothing
 needs to leave the device, don't build a backend for it: client-side
