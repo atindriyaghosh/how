@@ -3,7 +3,7 @@ type: pattern
 title: HTML tool pattern
 summary: Small, self-contained browser utilities — single-file static HTML, no build step, no backend.
 stack: [HTML, CSS, JavaScript, GitHub Pages]
-app_url: https://atindriyaghosh.com
+app_url: https://tools.atindriyaghosh.com
 ---
 
 ## Overview
