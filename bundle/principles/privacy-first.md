@@ -3,13 +3,16 @@ type: principle
 title: Privacy-first, local-first
 ---
 
-If a tool works on user data, that data stays in the browser. No upload, no
-analytics beacon carrying content, no server in the request path that
-doesn't need to be there.
+Whatever a tool or app does with a user's data, that data stays inside
+infrastructure under our control — the browser, or a backend we host
+ourselves — and never a third party's. No upload to someone else's
+service, no analytics beacon carrying content, no server in the path that
+isn't ours.
 
-This isn't a compliance stance, it's an architecture default: client-side
+This isn't a compliance stance, it's an architecture default. When nothing
+needs to leave the device, don't build a backend for it: client-side
 execution is simpler to build, cheaper to run, and impossible to breach on
-our end because there's nothing of the user's to breach. Reach for a
-backend only when the task genuinely requires one (fetching from an API the
-browser can't reach directly, work too heavy for a client), not because
-it's the familiar shape.
+our end because there's nothing of the user's to breach there. When a
+backend is genuinely needed, it's still not a third party's — it's a
+service we run and reach privately, not a public endpoint handed the data
+on faith.
