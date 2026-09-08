@@ -1,6 +1,7 @@
 ---
 type: principle
 title: Minimal dependencies
+summary: Every dependency gets pinned exactly and held still — vendored JS, exact Python versions, SHA-pinned GitHub Actions.
 ---
 
 Every dependency is a promise to keep updating it, and a supply-chain

@@ -1,6 +1,7 @@
 ---
 type: principle
 title: Privacy-first, local-first
+summary: A user's data stays inside infrastructure I control — the browser, or a backend I host myself — never a third party's.
 ---
 
 Whatever a tool or app does with a user's data, that data stays inside

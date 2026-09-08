@@ -5,8 +5,8 @@
   <h2>Principles</h2>
   {% for principle in principles %}
   <article>
-    <h3>{{ principle.title }}</h3>
-    {{ principle.content_html | safe }}
+    <a href="{{ root }}principles/{{ principle.slug }}.html"><h3>{{ principle.title }}</h3></a>
+    <p>{{ principle.summary }}</p>
   </article>
   {% endfor %}
 </section>

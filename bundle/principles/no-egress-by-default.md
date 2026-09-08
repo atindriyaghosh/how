@@ -1,6 +1,7 @@
 ---
 type: principle
 title: No egress by default
+summary: Deny network access by default, enforced by whatever mechanism the component actually provides — not left to convention.
 ---
 
 Deny network access by default, and open only what's specifically needed —

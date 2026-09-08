@@ -1,6 +1,7 @@
 ---
 type: principle
 title: Least privilege
+summary: A credential carries only the authority its actual usage requires, never the broader default it's handed.
 ---
 
 A credential or token carries only the authority its actual usage requires,
