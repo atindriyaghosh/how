@@ -1,13 +1,12 @@
 /* Layered on vendor/@picocss/pico@2.1.1/pico.min.css, matching the palette
    and conventions of atindriyaghosh/tools's common-styles.css */
 
-/* Pico's default fluid type scales the root font-size up to 131.25% of
-   16px on wide viewports. tools/ never inherits that scale-up — every
-   page there hand-sets its own (smaller, mostly 0.75-0.95rem) sizes
-   instead — so left alone this reads much larger and roomier than
-   tools/ ever does. Pin it to a fixed, compact size instead. */
+/* tools/ never touches Pico's own (fluid, up to 131.25% of 16px on wide
+   viewports) root font-size — it relies entirely on hand-set per-element
+   sizes like .card's below, layered on top of the unmodified root. Pinning
+   the root here too would shrink those same rem values below what tools/
+   actually renders, so leave it alone; only tighten spacing. */
 :root {
-    --pico-font-size: 87.5%;
     --pico-spacing: 0.85rem;
 }
 
