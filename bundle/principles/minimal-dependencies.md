@@ -3,12 +3,10 @@ type: principle
 title: Minimal dependencies
 ---
 
-Default to vanilla HTML, CSS, and JavaScript. No framework, no bundler,
-unless the problem genuinely can't be solved without one. Every dependency
-is a promise to keep updating it, and a supply-chain surface someone else
-controls — so when one earns its place, pin it exactly and hold it still.
-"Pin it" means something different per component; each is its own section
-below.
+Every dependency is a promise to keep updating it, and a supply-chain
+surface someone else controls — so when one earns its place, pin it
+exactly and hold it still. "Pin it" means something different per
+component; each is its own section below.
 
 #### JavaScript
 

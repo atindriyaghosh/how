@@ -6,6 +6,7 @@ import re
 import shutil
 import sys
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 
 import frontmatter
@@ -118,10 +119,11 @@ def build() -> None:
     patterns = [d for d in docs if d.type == "pattern"]
 
     env = Environment(loader=FileSystemLoader(TEMPLATES_DIR), autoescape=False)
+    year = date.today().year
 
     index_tmpl = env.get_template("index.html.j2")
     (DIST_DIR / "index.html").write_text(
-        index_tmpl.render(root="", principles=principles, patterns=patterns)
+        index_tmpl.render(root="", year=year, principles=principles, patterns=patterns)
     )
 
     pattern_tmpl = env.get_template("pattern.html.j2")
@@ -129,7 +131,7 @@ def build() -> None:
     patterns_dir.mkdir(exist_ok=True)
     for pattern in patterns:
         (patterns_dir / f"{pattern.slug}.html").write_text(
-            pattern_tmpl.render(root="../", pattern=pattern)
+            pattern_tmpl.render(root="../", year=year, pattern=pattern)
         )
 
     for item in STATIC_DIR.iterdir():
