@@ -1,6 +1,7 @@
 ---
 type: principle
 title: Privacy-first, local-first
+summary: A user's data stays inside infrastructure I control — the browser, or a backend I host myself — never a third party's.
 ---
 
 Whatever a tool or app does with a user's data, that data stays inside
@@ -15,3 +16,8 @@ my end because there's nothing of the user's to breach there. When a
 backend is genuinely needed, it's still not a third party's — it's a
 service I run and reach privately, not a public endpoint handed the data
 on faith.
+
+Where this shows up: the [HTML tool pattern](../patterns/html-tools.html)
+is the "nothing needs to leave the device" case; the
+[Private server-side app pattern](../patterns/private-server-side-app.html)
+is the "a backend is genuinely needed" case.

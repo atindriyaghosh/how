@@ -69,8 +69,8 @@ def load_docs() -> list[Doc]:
             fail(f"{md_path.relative_to(ROOT)}: missing required 'title' field")
 
         summary = post.get("summary")
-        if doc_type == "pattern" and not summary:
-            fail(f"{md_path.relative_to(ROOT)}: pattern is missing required 'summary' field")
+        if not summary:
+            fail(f"{md_path.relative_to(ROOT)}: missing required 'summary' field")
 
         docs.append(
             Doc(
@@ -93,17 +93,23 @@ def render_bodies(docs: list[Doc]) -> None:
 
 
 def check_links(docs: list[Doc]) -> None:
-    pattern_slugs = {d.slug for d in docs if d.type == "pattern"}
+    slugs_by_dir = {
+        "patterns": {d.slug for d in docs if d.type == "pattern"},
+        "principles": {d.slug for d in docs if d.type == "principle"},
+    }
     for doc in docs:
         for target in LINK_RE.findall(doc.body):
             if target.startswith(("http://", "https://", "#", "mailto:")):
                 continue
-            match = re.match(r"^(?:\.\./)?patterns/([^./]+)(?:\.md)?$", target)
+            match = re.match(r"^(?:\.\./)?(patterns|principles)/([^./]+)(?:\.(?:md|html))?$", target)
             if not match:
                 continue
-            slug = match.group(1)
-            if slug not in pattern_slugs:
-                fail(f"{doc.path.relative_to(ROOT)}: links to unknown pattern slug '{slug}'")
+            dir_name, slug = match.groups()
+            if slug not in slugs_by_dir[dir_name]:
+                fail(
+                    f"{doc.path.relative_to(ROOT)}: links to unknown {dir_name[:-1]} "
+                    f"slug '{slug}'"
+                )
 
 
 def build() -> None:
@@ -132,6 +138,14 @@ def build() -> None:
     for pattern in patterns:
         (patterns_dir / f"{pattern.slug}.html").write_text(
             pattern_tmpl.render(root="../", year=year, pattern=pattern)
+        )
+
+    principle_tmpl = env.get_template("principle.html.j2")
+    principles_dir = DIST_DIR / "principles"
+    principles_dir.mkdir(exist_ok=True)
+    for principle in principles:
+        (principles_dir / f"{principle.slug}.html").write_text(
+            principle_tmpl.render(root="../", year=year, principle=principle)
         )
 
     for item in STATIC_DIR.iterdir():

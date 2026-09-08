@@ -1,6 +1,7 @@
 ---
 type: principle
 title: No egress by default
+summary: Deny network access by default, enforced by whatever mechanism the component actually provides — not left to convention.
 ---
 
 Deny network access by default, and open only what's specifically needed —
@@ -26,6 +27,9 @@ load.
 Caveat, honestly: `script-src` still carries `'unsafe-inline'`, because a
 single-file tool ships its own JS inline. This policy blocks egress, not
 injection — it's a guarantee about where data can go, not immunity from XSS.
+
+This is the exact policy the
+[HTML tool pattern](../patterns/html-tools.html) ships on every page.
 
 #### Python (build tooling)
 

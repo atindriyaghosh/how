@@ -10,9 +10,11 @@
                img-src 'self' data: blob:;
                connect-src 'none';">
 <title>{% block title %}how{% endblock %}</title>
+<link rel="shortcut icon" type="image/png" href="{{ root }}favicon.png">
 <link rel="stylesheet" href="{{ root }}vendor/@picocss/pico@2.1.1/pico.min.css">
 <link rel="stylesheet" href="{{ root }}style.css">
 <script src="{{ root }}vendor/mermaid@11.17.2/mermaid.min.js"></script>
+{% block extra_head %}{% endblock %}
 </head>
 <body>
 <main class="container">
@@ -36,5 +38,6 @@
     </div>
 </footer>
 <script>mermaid.initialize({ startOnLoad: true });</script>
+{% block extra_script %}{% endblock %}
 </body>
 </html>

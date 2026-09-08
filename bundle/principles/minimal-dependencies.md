@@ -1,6 +1,7 @@
 ---
 type: principle
 title: Minimal dependencies
+summary: Every dependency gets pinned exactly and held still — vendored JS, exact Python versions, SHA-pinned GitHub Actions.
 ---
 
 Every dependency is a promise to keep updating it, and a supply-chain
@@ -14,6 +15,9 @@ Vendor the exact file into the repo — `vendor/<package>@<version>/` —
 rather than loading it from a CDN at runtime. A vendored file can't
 silently change version, can't be swapped by whoever controls the CDN, and
 doesn't need an exception carved into the page's own CSP just to load.
+This is the vendoring the
+[HTML tool pattern](../patterns/html-tools.html)'s current recommendation
+calls for.
 
 #### Python (build tooling)
 

@@ -1,0 +1,12 @@
+{% extends "base.html.j2" %}
+{% block title %}{{ principle.title }}{% endblock %}
+{% block content %}
+<p><a href="{{ root }}index.html" class="back-link">&larr; Back to index</a></p>
+<article>
+  <hgroup>
+    <h2>{{ principle.title }}</h2>
+    <p>{{ principle.summary }}</p>
+  </hgroup>
+  {{ principle.content_html | safe }}
+</article>
+{% endblock %}
