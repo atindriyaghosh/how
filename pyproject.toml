@@ -1,0 +1,10 @@
+[project]
+name = "how"
+version = "0.1.0"
+description = "how.domain.com build script"
+requires-python = ">=3.11"
+dependencies = [
+    "python-frontmatter==1.3.0",
+    "mistune==3.3.4",
+    "jinja2==3.1.6",
+]

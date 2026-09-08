@@ -1,0 +1,46 @@
+/* Layered on vendor/@picocss/pico@2.1.1/pico.min.css, matching the palette
+   and conventions of atindriyaghosh/tools's common-styles.css */
+
+a {
+    color: #6b8dd6;
+}
+
+a.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: bold;
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--pico-border-radius);
+    transition: all 0.2s;
+    color: #6b8dd6;
+    text-decoration: none;
+}
+
+a.back-link:hover {
+    background-color: rgba(107, 141, 214, 0.1);
+    color: #5b7dc6;
+}
+
+button,
+[role="button"] {
+    background-color: #6b8dd6;
+    border-color: #6b8dd6;
+    color: white;
+}
+
+button:hover,
+[role="button"]:hover {
+    background-color: #5b7dc6;
+    border-color: #5b7dc6;
+}
+
+.pattern-tag {
+    display: inline-block;
+    background: var(--pico-card-background-color);
+    border: 1px solid var(--pico-muted-border-color);
+    border-radius: 999px;
+    padding: 0.15rem 0.75rem;
+    margin: 0 0.4rem 0.4rem 0;
+    font-size: 0.85rem;
+}
