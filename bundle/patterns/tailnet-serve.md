@@ -1,6 +1,6 @@
 ---
 type: pattern
-title: Tailnet service pattern
+title: Tailnet Serve pattern
 summary: Apps that need a real backend, run as a Podman container reachable only over your tailnet — no reverse proxy, no public exposure.
 stack: [Podman, Quadlet, Tailscale Serve]
 ---
@@ -8,9 +8,9 @@ stack: [Podman, Quadlet, Tailscale Serve]
 ## Overview
 
 Some things aren't a static HTML tool: they need a persistent process, real
-backend logic, or state beyond a browser tab (Katha, for instance). Those
-get deployed as a Podman container, managed by a systemd quadlet unit, and
-reached only over your own tailnet — never the public internet.
+backend logic, or state beyond a browser tab. Those get deployed as a
+Podman container, managed by a systemd quadlet unit, and reached only over
+your own tailnet via Tailscale Serve — never the public internet.
 
 ## Use case
 
@@ -25,9 +25,10 @@ invisible to everything else.
 - **The app has no backend need at all** — the HTML tool pattern instead:
   static, no container, public by default.
 - **The app genuinely needs to be reachable by people outside your
-  tailnet** — this pattern's exposure model (Serve, not Funnel) doesn't
-  cover that. Public exposure is a different, larger decision — auth,
-  TLS, abuse surface — not one this pattern makes.
+  tailnet** — that's a different pattern, not this one. Whether that's the
+  same Podman/quadlet setup exposed via Tailscale Funnel instead of Serve,
+  or something with no tailnet involvement at all (Cloudflare Workers, say)
+  is a separate decision this pattern deliberately doesn't make.
 
 ## Options considered
 
