@@ -1,16 +1,17 @@
 ---
 type: pattern
 title: Tailnet Serve pattern
-summary: Apps that need a real backend, run as a Podman container reachable only over your tailnet — no reverse proxy, no public exposure.
-stack: [Podman, Quadlet, Tailscale Serve]
+summary: Apps that need a real backend, run as a systemd-managed service reachable only over your tailnet — bare-metal or a Podman container, whichever the app needs — no reverse proxy, no public exposure.
+stack: [systemd, Podman, Tailscale Serve]
 ---
 
 ## Overview
 
 Some things aren't a static HTML tool: they need a persistent process, real
-backend logic, or state beyond a browser tab. Those get deployed as a
-Podman container, managed by a systemd quadlet unit, and reached only over
-your own tailnet via Tailscale Serve — never the public internet.
+backend logic, or state beyond a browser tab. Those run as a
+systemd-managed service — bare-metal, or a Podman container when the app
+needs isolation the host can't give it for free — reached only over your
+own tailnet via Tailscale Serve, never the public internet.
 
 ## Use case
 
@@ -32,59 +33,66 @@ invisible to everything else.
 
 ## Options considered
 
-### Bare-metal service
+### Whether to containerize at all
 
-A systemd unit running the app directly on the host, no container layer.
+Not an either/or across the board — both shapes are accepted, chosen per
+app:
 
-- **For:** nothing between the process and the OS — simplest possible,
-  direct log and file access.
-- **Against:** no isolation between apps sharing a host; dependency
-  conflicts accumulate; the app's runtime ends up welded to whatever
-  happens to be installed on that one machine.
+- **Bare-metal systemd unit:** the app runs directly on the host, no
+  container layer. Right call when it has no unusual dependencies, needs
+  nothing the host doesn't already provide, and isn't fighting anything
+  else on that host for a runtime version.
+- **Podman container, defined as a quadlet:** the app runs rootless,
+  managed by systemd the same way a bare-metal unit would be. Right call
+  once the app needs dependency isolation, a specific runtime version, or
+  to move cleanly to a different host later.
 
-### Docker
+Both converge on the same operational shape below — `systemctl
+start`/`enable`, logs via journald, a restart policy for free, reachable
+only via Tailscale Serve. The trade-off is isolation and portability
+against nothing standing between the process and the OS; nothing about
+this pattern forces the choice one way.
+
+### Docker (when an app is containerized)
 
 - **For:** the default assumption in most tutorials and tooling,
   `docker-compose` familiar, a huge ecosystem of pre-built images.
 - **Against:** a root-owned daemon is both a single point of failure and a
   larger attack surface than this needs; rootless Docker exists but isn't
-  the path most docs or images assume.
-
-### Podman
-
-- **For:** rootless and daemonless by default, drop-in Docker CLI
-  compatibility so existing knowledge transfers, and native systemd
-  integration via quadlets — a container becomes a systemd unit, not a
-  separate process supervisor to run and monitor.
-- **Against:** a smaller ecosystem than Docker for ready-made compose
-  files, and occasional compatibility gaps with Docker-first tooling.
+  the path most docs or images assume. Podman gets the same rootless
+  result without opting out of a default.
 
 ## Current recommendation
 
-Podman, one container per app, defined as a systemd quadlet (a
-`.container` file) rather than raw `podman run` or `podman-compose` — the
-app becomes an ordinary systemd service: `systemctl start`/`enable`,
-standard logs via journald, restart policy for free. The image builds from
-a `Containerfile` in the app's own repo. No local registry yet; plausible
+Whichever shape an app needs, it ends up as a systemd unit: a plain
+`.service` for a bare-metal app, or a quadlet (a `.container` file) for a
+containerized one — `systemctl start`/`enable`, journald logs, restart
+policy either way. When containerized, the image builds from a
+`Containerfile` in the app's own repo; no local registry yet, plausible
 later if the build step ever needs to move off the host.
 
-No reverse proxy sits in front. Tailscale Serve exposes the container's
-port directly at a tailnet hostname — reachable from any of your own
-devices, invisible to anything not on the tailnet. Deliberately Serve, not
-Funnel: nothing here is meant to be public.
+No reverse proxy sits in front either way. Tailscale Serve exposes the
+service's port directly at a tailnet hostname — reachable from any of your
+own devices, invisible to anything not on the tailnet. Deliberately Serve,
+not Funnel: nothing here is meant to be public.
 
 The pattern doesn't care what the host actually is — a VPS, bare metal, a
-VM. Podman, quadlet, and Tailscale Serve stay the same regardless; only the
-box underneath changes.
+VM. systemd and Tailscale Serve stay the same regardless; only the box
+underneath, and whether that particular app is containerized, changes.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    A[Containerfile in app repo] --> B[podman build]
-    B --> C[Quadlet .container unit]
-    C --> D[systemd]
-    D --> E[Podman container]
-    E --> F[Tailscale Serve]
-    F -->|tailnet hostname, no public exposure| G[Any device on your tailnet]
+    subgraph Containerized
+        A1[Containerfile in app repo] --> A2[podman build]
+        A2 --> A3[Quadlet .container unit]
+    end
+    subgraph "Bare metal"
+        B1[App on host] --> B2[Plain systemd .service unit]
+    end
+    A3 --> C[systemd]
+    B2 --> C
+    C --> D[Tailscale Serve]
+    D -->|tailnet hostname, no public exposure| E[Any device on your tailnet]
 ```
