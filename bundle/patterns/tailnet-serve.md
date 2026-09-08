@@ -1,7 +1,7 @@
 ---
 type: pattern
 title: Tailnet Serve pattern
-summary: Apps that need a real backend, run as a systemd-managed service reachable only over your tailnet — bare-metal or a Podman container, whichever the app needs — no reverse proxy, no public exposure.
+summary: Apps that need a real backend, run as a systemd-managed service reachable only over my tailnet — bare-metal or a Podman container, whichever the app needs — no reverse proxy, no public exposure.
 stack: [systemd, Podman, Tailscale Serve]
 ---
 
@@ -10,22 +10,22 @@ stack: [systemd, Podman, Tailscale Serve]
 Some things aren't a static HTML tool: they need a persistent process, real
 backend logic, or state beyond a browser tab. Those run as a
 systemd-managed service — bare-metal, or a Podman container when the app
-needs isolation the host can't give it for free — reached only over your
-own tailnet via Tailscale Serve, never the public internet.
+needs isolation the host can't give it for free — reached only over my own
+tailnet via Tailscale Serve, never the public internet.
 
 ## Use case
 
-An app you — or people already on your tailnet — use, that needs an actual
-backend: a server process, persistent state, background work a browser
-can't do alone. Not meant to be public. Tailscale Serve, not Funnel, is the
-point: reachable by tailnet hostname from any of your own devices,
-invisible to everything else.
+An app I use — or share with people already on my tailnet — that needs an
+actual backend: a server process, persistent state, background work a
+browser can't do alone. Not meant to be public. Tailscale Serve, not
+Funnel, is the point: reachable by tailnet hostname from any of my own
+devices, invisible to everything else.
 
 ## When not to use this pattern
 
 - **The app has no backend need at all** — the HTML tool pattern instead:
   static, no container, public by default.
-- **The app genuinely needs to be reachable by people outside your
+- **The app genuinely needs to be reachable by people outside my
   tailnet** — that's a different pattern, not this one. Whether that's the
   same Podman/quadlet setup exposed via Tailscale Funnel instead of Serve,
   or something with no tailnet involvement at all (Cloudflare Workers, say)
@@ -72,7 +72,7 @@ policy either way. When containerized, the image builds from a
 later if the build step ever needs to move off the host.
 
 No reverse proxy sits in front either way. Tailscale Serve exposes the
-service's port directly at a tailnet hostname — reachable from any of your
+service's port directly at a tailnet hostname — reachable from any of my
 own devices, invisible to anything not on the tailnet. Deliberately Serve,
 not Funnel: nothing here is meant to be public.
 
@@ -94,5 +94,5 @@ flowchart LR
     A3 --> C[systemd]
     B2 --> C
     C --> D[Tailscale Serve]
-    D -->|tailnet hostname, no public exposure| E[Any device on your tailnet]
+    D -->|tailnet hostname, no public exposure| E[Any device on my tailnet]
 ```

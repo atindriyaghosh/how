@@ -49,7 +49,7 @@ One `<tool-name>.html` file per tool, vanilla JS, no build step. Deployed
 straight to GitHub Pages.
 
 - **For:** zero infrastructure, zero cost, trivially auditable (the whole
-  tool is one file you can read top to bottom), nothing to keep upgraded.
+  tool is one file, readable top to bottom), nothing to keep upgraded.
 - **Against:** no shared component layer, so common UI (back-link, result
   box, status messages) is duplicated via a shared stylesheet rather than
   shared components. Fine at the current scale; would need revisiting past

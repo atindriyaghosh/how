@@ -11,8 +11,8 @@ component; each is its own section below.
 #### JavaScript
 
 Vendor the exact file into the repo — `vendor/<package>@<version>/` —
-rather than loading it from a CDN at runtime. A vendored file can't change
-out from under you, can't be swapped by whoever controls the CDN, and
+rather than loading it from a CDN at runtime. A vendored file can't
+silently change version, can't be swapped by whoever controls the CDN, and
 doesn't need an exception carved into the page's own CSP just to load.
 
 #### Python (build tooling)
