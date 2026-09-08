@@ -26,7 +26,10 @@ lockfile `uv` resolves from them. A range means the build installs
 whatever the latest matching release happens to be on the day it runs —
 the opposite of pinning. Exact pins plus a committed lockfile mean the
 same build script installs the same interpreter-level dependencies whether
-it runs today or in a year.
+it runs today or in a year. This is why the
+[Knowledge base pattern](../patterns/knowledge-base.html) reaches for a
+small pinned script over an off-the-shelf generator whose hosted build
+doesn't offer that same control.
 
 #### GitHub Actions
 
