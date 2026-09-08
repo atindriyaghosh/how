@@ -20,7 +20,25 @@ appears, nothing leaves the browser. The moment a "tool" needs accounts,
 shared state across sessions, or server-side processing, it's no longer
 this pattern.
 
+## When not to use this pattern
+
+The same boundary as above, stated as an exit condition. Reach for
+something else once a tool's actual needs cross it:
+
+- **The tool needs a backend** — heavier processing than a browser can do,
+  a server-only API, or persistence beyond the current tab. That's a
+  server-side app's job; this pattern gives it up on purpose, to stay
+  privacy-first and infrastructure-free, not by accident.
+- **The tool needs shared, stateful UI across many tools** — once
+  duplicating common UI across single-file tools becomes the actual cost
+  (real interactive complexity, well past a few dozen tools), a
+  bundler/framework build's shared-component layer starts earning the
+  build step and runtime it adds.
+
 ## Options considered
+
+A server-side app and a bundler/framework build were both ruled out for
+the reasons above. What's actually in production:
 
 ### Static HTML on Pages
 
@@ -33,28 +51,6 @@ straight to GitHub Pages.
   box, status messages) is duplicated via a shared stylesheet rather than
   shared components. Fine at the current scale; would need revisiting past
   a few dozen tools.
-
-### Server-side app
-
-A backend service handling the conversion/processing, with the browser as
-a thin client.
-
-- **For:** can do work a browser can't (heavier processing, server-only
-  APIs, persistence).
-- **Against:** infrastructure to run and pay for, a server in the path of
-  user data for tools that don't need one, violates privacy-first for no
-  benefit on this class of tool.
-
-### Bundler/framework build
-
-React/Vue (or similar) with a build step, shared components, and a proper
-dependency graph.
-
-- **For:** shared components stop the duplication a static-HTML approach
-  accepts; better for tools with real interactive complexity.
-- **Against:** a build step and a framework runtime for tools that are
-  fundamentally "take input, transform it, show output." Adds a class of
-  failure (the build breaks) that a single static file can't have.
 
 ## Current recommendation
 
