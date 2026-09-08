@@ -1,7 +1,64 @@
 {% extends "base.html.j2" %}
 {% block title %}how{% endblock %}
+{% block extra_head %}
+<style>
+    .table-of-contents {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.75rem;
+        font-size: 0.85rem;
+        align-items: center;
+    }
+
+    .toc-link {
+        text-decoration: none;
+        color: #6b8dd6;
+    }
+
+    .toc-link:hover {
+        text-decoration: underline;
+    }
+
+    .toc-separator {
+        color: var(--pico-muted-border-color);
+    }
+
+    .search-box {
+        margin-bottom: 0.75rem;
+    }
+
+    .search-box input {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .search-box input::placeholder {
+        font-style: italic;
+    }
+
+    .card.hidden {
+        display: none;
+    }
+
+    .section.hidden {
+        display: none;
+    }
+</style>
+{% endblock %}
 {% block content %}
-<section>
+<div class="table-of-contents" id="tableOfContents">
+  <strong style="margin-right: 0.5rem;">Categories:</strong>
+  <a href="#principles" class="toc-link"><strong>Principles</strong></a>
+  <span class="toc-separator">|</span>
+  <a href="#patterns" class="toc-link"><strong>Patterns</strong></a>
+</div>
+
+<div class="search-box">
+  <input type="search" id="searchInput" placeholder="Search principles and patterns..." aria-label="Search principles and patterns">
+</div>
+
+<section class="section" id="principles" data-section="principles">
   <h2>Principles</h2>
   <div class="card-grid">
     {% for principle in principles %}
@@ -13,7 +70,7 @@
   </div>
 </section>
 
-<section>
+<section class="section" id="patterns" data-section="patterns">
   <h2>Patterns</h2>
   <div class="card-grid">
     {% for pattern in patterns %}
@@ -24,4 +81,32 @@
     {% endfor %}
   </div>
 </section>
+{% endblock %}
+{% block extra_script %}
+<script>
+(function () {
+    const searchInput = document.getElementById('searchInput');
+    const sections = document.querySelectorAll('.section');
+    const tableOfContents = document.getElementById('tableOfContents');
+
+    function updateSectionVisibility() {
+        sections.forEach((section) => {
+            const visible = section.querySelectorAll('.card:not(.hidden)').length;
+            const tocLink = tableOfContents.querySelector(`a[href="#${section.id}"]`);
+            section.classList.toggle('hidden', visible === 0);
+            if (tocLink) tocLink.classList.toggle('hidden', visible === 0);
+        });
+    }
+
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('.card').forEach((card) => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const summary = card.querySelector('p').textContent.toLowerCase();
+            card.classList.toggle('hidden', !(title.includes(term) || summary.includes(term)));
+        });
+        updateSectionVisibility();
+    });
+})();
+</script>
 {% endblock %}
