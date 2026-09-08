@@ -12,6 +12,7 @@ from pathlib import Path
 import frontmatter
 import mistune
 from jinja2 import Environment, FileSystemLoader
+from mistune.toc import add_toc_hook, render_toc_ul
 
 ROOT = Path(__file__).parent
 BUNDLE_DIR = ROOT / "bundle"
@@ -21,6 +22,7 @@ DIST_DIR = ROOT / "dist"
 
 KNOWN_TYPES = {"principle", "pattern"}
 LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
+SLUG_RE = re.compile(r"[^a-z0-9]+")
 
 
 class MermaidRenderer(mistune.HTMLRenderer):
@@ -31,7 +33,12 @@ class MermaidRenderer(mistune.HTMLRenderer):
         return super().block_code(code, info)
 
 
+def slugify(text: str) -> str:
+    return SLUG_RE.sub("-", text.lower()).strip("-") or "section"
+
+
 markdown = mistune.create_markdown(renderer=MermaidRenderer())
+add_toc_hook(markdown, min_level=2, max_level=4, heading_id=lambda tok, i: slugify(tok["text"]))
 
 
 @dataclass
@@ -45,6 +52,7 @@ class Doc:
     app_url: str | None = None
     body: str = ""
     content_html: str = ""
+    toc_html: str = ""
 
 
 def fail(message: str) -> None:
@@ -89,7 +97,9 @@ def load_docs() -> list[Doc]:
 
 def render_bodies(docs: list[Doc]) -> None:
     for doc in docs:
-        doc.content_html = markdown(doc.body)
+        html, state = markdown.parse(doc.body)
+        doc.content_html = html
+        doc.toc_html = render_toc_ul(state.env.get("toc_items", []))
 
 
 def check_links(docs: list[Doc]) -> None:

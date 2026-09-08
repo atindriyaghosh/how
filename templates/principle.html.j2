@@ -7,6 +7,12 @@
     <h2>{{ principle.title }}</h2>
     <p>{{ principle.summary }}</p>
   </hgroup>
+  {% if principle.toc_html %}
+  <nav class="toc" aria-label="Table of contents">
+    <strong>Contents</strong>
+    {{ principle.toc_html | safe }}
+  </nav>
+  {% endif %}
   {{ principle.content_html | safe }}
 </article>
 {% endblock %}
